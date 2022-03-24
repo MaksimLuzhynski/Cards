@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import style from "./Login.module.css"
 import { Link } from 'react-router-dom'
 import { Input } from "../../../components/Input/Input";
 import { Button } from "../../../components/Button/Button";
+import { loginTC } from "../../../store/authReducer";
 
 
 export const Login = () => {
@@ -17,17 +19,22 @@ export const Login = () => {
     //     setName('');
     // }
 
+    
+    const dispatch = useDispatch()
+    
+    const rememberMe = true
     const [emailValue, setEmailValue] = useState<string>('')
     const [passwordValue, setPasswordValue] = useState<string>('')
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const data = {
-            email: emailValue,
-            password: passwordValue,
-        }
-        console.log(data);
-
+        // const data = {
+        //     email: emailValue,
+        //     password: passwordValue,
+        // }
+        // console.log(data);
+        dispatch(loginTC(emailValue, passwordValue, rememberMe))
+        console.log(emailValue, passwordValue, rememberMe);
     }
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setEmailValue(e.currentTarget.value)

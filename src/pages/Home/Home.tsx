@@ -1,8 +1,18 @@
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
+import { logoutTC } from "../../store/authReducer";
 import style from "./Home.module.css"
 
 export function Home() {
+    
+    const dispatch = useDispatch()
+    const handleLogOut = () => {
+        dispatch(logoutTC())
+        console.log("привет");
+        
+    }
+
     return (
         <div className={style.pageHome}>
             <NavLink to={'/'}> Home </NavLink>
@@ -21,8 +31,9 @@ export function Home() {
                 Home Page
             </div>
             <Button
-            name={'Выход'}
-            type={'button'}
+                name={'Log out'}
+                type={'button'}
+                onClick={handleLogOut}
             />
         </div>
     );

@@ -1,20 +1,21 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import thunk from 'redux-thunk';
-import { loginReducer } from "./loginReducer";
-import { newPasswordReducer } from "./newPasswordReducer";
+import thunkMiddleware from 'redux-thunk';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { authReducer } from "./authReducer";
+import { appReducer } from './appReducer';
 
-export type RootStateType = ReturnType<typeof rootReducer>
+export type RootStateType = ReturnType<typeof store.getState>
+// export type AppDispatch = typeof store.dispatch
 
 const rootReducer = combineReducers({
-    login: loginReducer,
-    newPassword: newPasswordReducer,
+    auth: authReducer,
+    app: appReducer,
     // recoverPass: recoverPassReducer,
     // packs: cardsPackReducer,
     // cards: cardsReducer,
 })
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
+});
 
-
-//@ts-ignore
-window.store = store

@@ -9,16 +9,17 @@ type InputPropsType = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-export function Input(props: InputPropsType) {
+export function Input({ label, value, name, type, onChange }: InputPropsType) {
+
     return (<div>
         <label className={style.lable}>
-            {props.label}
+            {label}
             <input
                 className={style.input}
-                name={props.name}
-                type={props.type}
-                value={props.value}
-                onChange={props.onChange}
+                name={name}
+                type={type}
+                value={value}
+                onChange={onChange}
             />
         </label>
     </div>)
