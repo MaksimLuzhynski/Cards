@@ -1,19 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { Button } from "../../../components/Button/Button";
 import { Input } from "../../../components/Input/Input";
+import { SnackBar } from "../../../components/SnackBar/SnackBar";
+import { StatusType } from "../../../store/appReducer";
+import { registrationTC, setAuthStatus } from "../../../store/authReducer";
+import { RootStateType } from "../../../store/store";
 import style from "./Registration.module.css"
 
 export const Registration = () => {
 
-    // const [name, setName] = React.useState('your_email@gmail.com');
+    const authStatus = useSelector<RootStateType, StatusType>(state => state.auth.authStatus)
 
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setName(event.currentTarget.value);
-    // };
+    const dispatch = useDispatch()
 
-    // const handleClick = () => {
-    //     setName('');
-    // }
     const [emailValue, setEmailValue] = useState<string>('')
     const [passwordValue, setPasswordValue] = useState<string>('')
     const [confirmPasswordValue, setConfirmPasswordValue] = useState<string>('')
@@ -21,15 +22,11 @@ export const Registration = () => {
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (confirmPasswordValue === passwordValue) {
-            const data = {
-                password: passwordValue,
-                email: emailValue,
-                confirm: confirmPasswordValue,
-            }
-            console.log(data);
+            dispatch(registrationTC(emailValue, passwordValue))
         }
     }
-
+    // const handleCancel =()=>{  
+    // }
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setEmailValue(e.currentTarget.value)
     }
@@ -38,6 +35,10 @@ export const Registration = () => {
     }
     const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setConfirmPasswordValue(e.currentTarget.value)
+    }
+
+    if (authStatus === 'succeeded') {
+        return <Navigate to='/login' />
     }
 
     return (
@@ -73,6 +74,7 @@ export const Registration = () => {
                     <Button
                         name={'Cancel'}
                         type={'button'}
+                        // onClick={handleCancel}
                     />
                     <Button
                         name={'Registration'}
@@ -80,8 +82,7 @@ export const Registration = () => {
                     />
                 </div>
             </form>
-
-
+            <SnackBar />
         </div>
     )
 }

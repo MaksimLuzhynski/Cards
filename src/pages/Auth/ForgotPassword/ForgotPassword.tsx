@@ -1,36 +1,37 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import style from "./ForgotPassword.module.css"
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Input } from "../../../components/Input/Input";
 import { Button } from "../../../components/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { forgotPassTC } from "../../../store/authReducer";
+import { RootStateType } from "../../../store/store";
+import { StatusType } from "../../../store/appReducer";
+import { SnackBar } from "../../../components/SnackBar/SnackBar";
 
 
 export const ForgotPassword = () => {
 
-    // const [name, setName] = React.useState('your_email@gmail.com');
+    const forgotPassStatus = useSelector<RootStateType, StatusType>(state => state.auth.forgotPassStatus)
 
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setName(event.currentTarget.value);
-    // };
-
-    // const handleClick = () => {
-    //     setName('');
-    // }
+    const dispatch = useDispatch()
 
     const [emailValue, setEmailValue] = useState<string>('')
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const data = {
-            email: emailValue,
-        }
-        console.log(data);
+     
+        dispatch(forgotPassTC(emailValue));
+    }
 
-    }
     const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmailValue(e.currentTarget.value)
+        setEmailValue(e.currentTarget.value);
     }
-   
+
+    if (forgotPassStatus === 'succeeded') {
+        return <Navigate to='/checkEmail' />
+    }
+
     return (
         <div className={style.forgotPassword}>
             <h1 className={style.logoTitle}>Educational cards</h1>
@@ -52,12 +53,14 @@ export const ForgotPassword = () => {
                     <Button
                         name={'Send Instructions'}
                         type={'submit'}
+                        // onClick={onClickHandle}
                     />
                 </div>
             </form>
 
             <p className={style.message}>Did you remember your password?</p>
-            <Link className={style.link} to='#' ><span>Try logging in</span></Link>
+            <Link className={style.link} to='/login' ><span>Try logging in</span></Link>
+            <SnackBar/>
         </div>
     )
 }

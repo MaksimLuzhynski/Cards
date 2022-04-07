@@ -1,31 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import style from "./CreateNewPassword.module.css"
-import { Link } from 'react-router-dom'
 import { Input } from "../../../components/Input/Input";
 import { Button } from "../../../components/Button/Button";
+import { useDispatch } from "react-redux";
+import { newPasswordTC } from "../../../store/authReducer";
+import { useParams } from "react-router-dom";
 
 
 export const CreateNewPassword = () => {
 
-    // const [name, setName] = React.useState('your_email@gmail.com');
-
-    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setName(event.currentTarget.value);
-    // };
-
-    // const handleClick = () => {
-    //     setName('');
-    // }
+    const dispatch = useDispatch()
+    const { token } = useParams<'token'>()
 
     const [passwordValue, setPasswordValue] = useState<string>('')
 
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const data = {
-            password: passwordValue,
+        e.preventDefault();
+        if (token) {
+            dispatch(newPasswordTC(passwordValue, token))
         }
-        console.log(data);
-
     }
     const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPasswordValue(e.currentTarget.value)

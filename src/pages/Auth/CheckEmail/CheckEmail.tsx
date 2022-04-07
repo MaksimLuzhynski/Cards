@@ -1,9 +1,22 @@
 import style from "./CheckEmail.module.css"
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import LogoEmail from './LogoEmail.png'
+import { useSelector } from "react-redux"
+import { RootStateType } from "../../../store/store"
+import { StatusType } from "../../../store/appReducer"
 
 
 export const CheckEmail = () => {
+
+    // const authStatus = useSelector<RootStateType, AppStatusType>(state => state.auth.authStatus)
+
+    //   const onClickHandle=()=>{
+        
+    //     if (authStatus === 'succeeded') {
+    //         return <Navigate to='/checkEmail' />
+    //     }
+    // }
+
 
     return (
         <div className={style.checkEmail}>
