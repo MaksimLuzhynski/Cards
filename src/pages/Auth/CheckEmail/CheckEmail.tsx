@@ -8,16 +8,6 @@ import { StatusType } from "../../../store/appReducer"
 
 export const CheckEmail = () => {
 
-    // const authStatus = useSelector<RootStateType, AppStatusType>(state => state.auth.authStatus)
-
-    //   const onClickHandle=()=>{
-        
-    //     if (authStatus === 'succeeded') {
-    //         return <Navigate to='/checkEmail' />
-    //     }
-    // }
-
-
     return (
         <div className={style.checkEmail}>
             <h1 className={style.logoTitle}>Educational cards</h1>

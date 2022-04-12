@@ -1,0 +1,7 @@
+.table {
+    border          : 1px solid;
+    background-color: rgb(221, 199, 199);
+    margin-top      : 24px;
+    margin-bottom   : 24px;
+    height          : 410px;
+}
