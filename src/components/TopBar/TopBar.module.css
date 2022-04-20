@@ -1,0 +1,87 @@
+.topBar {
+    /* height: 60px;
+    width: 1280px; */
+    height          : 60px;
+    max-width       : 100%;
+    display         : flex;
+    flex-direction  : row;
+    /* border       : 1px solid; */
+    background-color: #EBE0E9;
+}
+
+.title {
+
+    background-color: #EBE0E9;
+    position        : absolute;
+
+    font-family   : Poppins;
+    font-size     : 26px;
+    font-weight   : 600;
+    line-height   : 39px;
+    letter-spacing: 0em;
+    text-align    : center;
+    color         : #2D2E46;
+    margin        : 10px 290px;
+
+}
+
+.switch {
+    display           : flex;
+    flex-direction    : row;
+    /* justify-content:space-between;    */
+    /* border         : 1px solid; */
+    background-color  : #EBE0E9;
+
+    margin: 0 auto;
+
+}
+
+.switchPacksList {
+    border          : 1px solid;
+    background-color: #DCCCDB;
+    width           : 173px;
+    height          : 60px;
+
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    font-family   : SF UI Display;
+    font-size     : 16px;
+    font-weight   : 400;
+    line-height   : 16px;
+    letter-spacing: 0.4px;
+    text-align    : center;
+    color         : #2D2E46;
+}
+
+.switchProfile {
+    border          : 1px solid;
+    background-color: #EBE0E9;
+
+
+    width : 173px;
+    height: 60px;
+
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+
+
+    font-family   : SF UI Display;
+    font-size     : 16px;
+    font-weight   : 400;
+    line-height   : 16px;
+    letter-spacing: 0.4px;
+    text-align    : center;
+    color         : #2D2E46;
+
+
+}
+
+.img {
+    width : 17px;
+    height: 17px;
+
+}

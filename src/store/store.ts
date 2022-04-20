@@ -2,6 +2,7 @@ import thunkMiddleware from 'redux-thunk';
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./authReducer";
 import { appReducer } from './appReducer';
+import { packsReducer } from './packsReducer';
 
 export type RootStateType = ReturnType<typeof store.getState>
 // export type AppDispatch = typeof store.dispatch
@@ -9,6 +10,7 @@ export type RootStateType = ReturnType<typeof store.getState>
 const rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
+    packs: packsReducer,
     // recoverPass: recoverPassReducer,
     // packs: cardsPackReducer,
     // cards: cardsReducer,

@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../components/Button/Button";
 import { Table } from "../../components/Table/Table";
+import { TopBar } from "../../components/TopBar/TopBar";
 import { logoutTC } from "../../store/authReducer";
+import { getPacksTC } from "../../store/packsReducer";
 import Avatar from './Avatar.jpg'
 import style from "./Profile.module.css"
 
@@ -12,8 +15,13 @@ export function Profile() {
         dispatch(logoutTC())
     }
 
+    useEffect(() => {
+        dispatch(getPacksTC())
+    }, [])
+
     return (
         <div className={style.profile}>
+            <TopBar/>
             <div className={style.wrapper}>
                 <div className={style.leftPart}>
                     <div className={style.avatar}>
@@ -30,11 +38,16 @@ export function Profile() {
                 </div>
 
                 <div className={style.rightRart}>
-                    <h1 className={style.title}>Title</h1>
+                    <h1 className={style.title}>Packs list of Danuta </h1>
                     <input
                         className={style.seach}
                         type="search"
                         placeholder="Seach..."
+                    />
+                    <Button
+                        name={'Add new pack'}
+                        type={'button'}
+                        onClick={handleLogOut}
                     />
                     <Table />
                     <div className={style.pagination}>
