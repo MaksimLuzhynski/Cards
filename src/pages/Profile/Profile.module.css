@@ -89,7 +89,7 @@
     background-color: #FEFEFF;
     margin          : 24px 48px;
     max-height      : 100%;
-    width           : 765px;
+    width           : 669px;
 }
 
 .title {
@@ -97,6 +97,7 @@
     margin-top: 0px;
     height    : 33px;
     width     : 100%;
+    /* width     :669px; */
 
     font-family   : Poppins;
     font-size     : 22px;
@@ -108,10 +109,14 @@
 
 }
 
+.seachAndButton{
+    display         : flex;
+    flex-direction  : row;
+}
+
 .seach {
-    border          : 1px solid #635D80;
+    border          : 1px solid #9b99a4;
     background-color: #ECECF9;
-    margin-top      : 15px;
     height          : 36px;
     width           : 461px;
     font-family     : SF UI Display;
@@ -119,6 +124,15 @@
     text-align      : left;
   
 
+}
+
+.buttonAddNewPack{
+    margin: auto;
+    margin-right: 0px;
+    width: 184px;
+    height: 36px;
+    border-radius: 18px;
+    box-shadow: 1px 5px 5px #21268F;
 }
 
 .pagination {

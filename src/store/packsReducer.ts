@@ -43,6 +43,9 @@ const slice = createSlice({
         setPacks: (state, action: PayloadAction<PacksInitialStateType>) => {                        
             return action.payload
              },
+        setNewPack:(state, action: PayloadAction<PackType>)   =>{
+            state.cardPacks.unshift(action.payload)
+        }  
         // setUserLogOut: (state) => {
         //     state.user = {} as UserType
         //     state.isAuth = false
@@ -68,7 +71,7 @@ const slice = createSlice({
 
 export const packsReducer = slice.reducer;
 
-export const { setPacks } = slice.actions
+export const { setPacks, setNewPack } = slice.actions
 
 
 export const getPacksTC = () => (dispatch: Dispatch<any>) => {
@@ -85,6 +88,33 @@ export const getPacksTC = () => (dispatch: Dispatch<any>) => {
         
         })
 }
+
+export const addNewPackTC=(newPackName:string|null)=>(dispatch: Dispatch<any>)=>{
+    dispatch(setAppStatus({ appStatus: 'loading' }))
+    packsAPI.addPack({cardsPack:{name:newPackName}})
+    .then((res)=>{
+        dispatch(setNewPack(res.data.newCardsPack)) 
+        dispatch(setAppStatus({ appStatus: 'succeeded' }))
+    })
+    .catch((error: AxiosError) => {
+        console.log("Новый пакет не создался"+ error);
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // export const logoutTC = () => (dispatch: Dispatch<any>) => {
