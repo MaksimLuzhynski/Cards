@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AxiosError } from "axios";
 import { Dispatch } from "react";
+import { start } from "repl";
 import { packsAPI } from "../api/packsAPI";
 import { setAppStatus } from "./appReducer";
 
@@ -40,12 +41,16 @@ const slice = createSlice({
     initialState: initialStatePacks,
     reducers: {
 
-        setPacks: (state, action: PayloadAction<PacksInitialStateType>) => {                        
+        setPacks: (state, action: PayloadAction<PacksInitialStateType>) => {
             return action.payload
-             },
-        setNewPack:(state, action: PayloadAction<PackType>)   =>{
+        },
+        setNewPack: (state, action: PayloadAction<PackType>) => {
             state.cardPacks.unshift(action.payload)
-        }  
+        },
+        setDeletePack: (state, action: PayloadAction<PackType>) => {
+            state.cardPacks = state.cardPacks.filter(item => item._id !== action.payload._id)
+        }
+
         // setUserLogOut: (state) => {
         //     state.user = {} as UserType
         //     state.isAuth = false
@@ -71,110 +76,55 @@ const slice = createSlice({
 
 export const packsReducer = slice.reducer;
 
-export const { setPacks, setNewPack } = slice.actions
+export const { setPacks, setNewPack, setDeletePack: setDeletePack } = slice.actions
 
 
 export const getPacksTC = () => (dispatch: Dispatch<any>) => {
     dispatch(setAppStatus({ appStatus: 'loading' }))
-    packsAPI.getPacks( {})
+    packsAPI.getPacks({})
         .then((res) => {
             dispatch(setPacks(res.data))
             dispatch(setAppStatus({ appStatus: 'succeeded' }))
             console.log(`Server - ${res.data}`);
-            
+
         })
         .catch((error: AxiosError) => {
-        console.log("паки не получили"+ error);
-        
+            console.log("паки не получили" + error);
+
         })
 }
 
-export const addNewPackTC=(newPackName:string|null)=>(dispatch: Dispatch<any>)=>{
+export const addNewPackTC = (newPackName: string | null) => (dispatch: Dispatch<any>) => {
     dispatch(setAppStatus({ appStatus: 'loading' }))
-    packsAPI.addPack({cardsPack:{name:newPackName}})
-    .then((res)=>{
-        dispatch(setNewPack(res.data.newCardsPack)) 
-        dispatch(setAppStatus({ appStatus: 'succeeded' }))
-    })
-    .catch((error: AxiosError) => {
-        console.log("Новый пакет не создался"+ error);
-    })
+    packsAPI.addPack({ cardsPack: { name: newPackName } })
+        .then((res) => {
+            dispatch(setNewPack(res.data.newCardsPack))
+            dispatch(setAppStatus({ appStatus: 'succeeded' }))
+        })
+        .catch((error: AxiosError) => {
+            console.log("Новый пакет не создался" + error);
+        })
 }
 
+export const deletePackTC = (_id: string) => (dispatch: Dispatch<any>) => {
+    dispatch(setAppStatus({ appStatus: 'loading' }))
+    packsAPI.deletePack(_id)
+        .then((res) => {
+            dispatch(setDeletePack(res.data.deletedCardsPack))
+            dispatch(setAppStatus({ appStatus: 'succeeded' }))
+        })
+        // .catch((error: AxiosError,res) => {
+        //     console.log("Пакет не удалился" + error);
+        // })
+        .catch((res) => {
+            console.log(res.data.deletedCardsPack);
+        })
+}
 
+export const editPackTC = (_id: string, name: string) => (dispatch: Dispatch<any>) => {
 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export const logoutTC = () => (dispatch: Dispatch<any>) => {
-//     dispatch(setAppStatus({ appStatus: 'loading' }))
-//     authAPI.logOut()
-//         .then(() => {
-//             dispatch(setUserLogOut());
-//             dispatch(setAppStatus({ appStatus: 'succeeded' }))
-//         })
-//         .catch((error: AxiosError) => {
-//             handleError(error, dispatch)
-//         })
-// }
-
-// export const registrationTC = (email: string, password: string) => (dispatch: Dispatch<any>) => {
-//     dispatch(setAppStatus({ appStatus: 'loading' }))
-//     dispatch(setAuthStatus({ authStatus: 'loading' }))
-//     authAPI.registration({ email, password })
-//         .then(() => {
-//             dispatch(setAuthStatus({ authStatus: 'succeeded' }))
-//             dispatch(setAuthStatus({ authStatus: 'idle' }))
-//             dispatch(setAppStatus({ appStatus: 'succeeded' }))
-//         })
-//         .catch((error: AxiosError) => {
-//             handleError(error, dispatch)
-//             dispatch(setAuthStatus({ authStatus: 'failed' }))
-//         })
-// }
-
-// export const forgotPassTC = (email: string) => (dispatch: Dispatch<any>) => {
-//     dispatch(setAppStatus({ appStatus: 'loading' }));
-//     dispatch(setForgotPass({ forgotPassStatus: 'loading' }));
-//     authAPI.recoveryPassword({
-//         email,
-//         from: "<luzhynski@mail.ru>",
-//         message: `<div style="background-color: lime; padding: 15px"> 
-//             password recovery link: <a href='http://localhost:3000/createNewPassword/$token$'>link</a></div>`
-//     })
-//         .then(() => {
-//             dispatch(setForgotPass({ forgotPassStatus: 'succeeded' }));
-//             dispatch(setAppStatus({ appStatus: 'succeeded' }));
-//         })
-//         .catch((error: AxiosError) => {
-//             handleError(error, dispatch)
-//             dispatch(setForgotPass({ forgotPassStatus: 'failed' }));
-//         })
-// }
-
-
-// export const logoutTC = () => (dispatch: Dispatch<any>) => {
-//     dispatch(setAppStatus({ appStatus: 'loading' }))
-//     authAPI.logOut()
-//         .then(() => {
-//             dispatch(setUserLogOut());
-//             dispatch(setAppStatus({ appStatus: 'succeeded' }))
-//         })
-//         .catch((error: AxiosError) => {
-           
-//         })
-// }
 
 
 

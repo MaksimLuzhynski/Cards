@@ -12,17 +12,17 @@ type RequestPacksType = {
     user_id?: string
 }
 
-type RequestNewPackType={
-    cardsPack:{
-        name?: string|null //   тип null пофиксить в дальнейшем
-        path?:  string
-        grade?: number 
+type RequestNewPackType = {
+    cardsPack: {
+        name?: string | null //   тип null пофиксить в дальнейшем
+        path?: string
+        grade?: number
         shots?: number
-        rating?:number
+        rating?: number
         deckCover?: string
         private?: boolean
-        type?:  string
-    }     
+        type?: string
+    }
 }
 
 
@@ -34,6 +34,7 @@ const instance = axios.create({
 //  Разобраться с типизацией реквестов
 export const packsAPI = {
     getPacks: (data: RequestPacksType) => instance.get<PacksInitialStateType>(`cards/pack`, { params: data }),
-    addPack:(data:RequestNewPackType) =>  instance.post<{newCardsPack: PackType}>(`cards/pack`, { ...data }),
-}                                                                        
+    addPack: (data: RequestNewPackType) => instance.post<{ newCardsPack: PackType }>(`cards/pack`, { ...data }),
+    deletePack: (data: string) => instance.delete<{ deletedCardsPack: PackType }>(`cards/pack`, { params: {id: data} }),
+}
 

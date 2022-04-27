@@ -5,7 +5,7 @@ import { CreateNewPassword } from '../pages/Auth/CreateNewPassword/CreateNewPass
 import { ForgotPassword } from '../pages/Auth/ForgotPassword/ForgotPassword';
 import { Login } from '../pages/Auth/Login/Login';
 import { Registration } from '../pages/Auth/Registration/Registration';
-import { Profile } from '../pages/Profile/Profile';
+import { Profile } from '../pages/PacksList/PacksList';
 
 
 

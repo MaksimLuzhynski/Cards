@@ -1,6 +1,6 @@
 import { iteratorSymbol } from "immer/dist/internal"
-import { useSelector } from "react-redux"
-import { PackType } from "../../../store/packsReducer"
+import { useDispatch, useSelector } from "react-redux"
+import { deletePackTC, editPackTC, PackType } from "../../../store/packsReducer"
 import { RootStateType } from "../../../store/store"
 import style from "./TableBody.module.css"
 
@@ -8,8 +8,19 @@ export function TableBody() {
 
     const cardPacks = useSelector<RootStateType, PackType[]>(state => state.packs.cardPacks)
 
-    console.log(cardPacks);
+    const dispatch = useDispatch()
 
+    const hadleDelete = (_id: string) => {
+        let isAgry = confirm("Do you really want to remove Pack? All cards will be excluded from this course.");
+        if (isAgry) {
+            // alert(_id)
+            dispatch(deletePackTC(_id));
+        }
+    }
+
+    // const hadleEdit = (_id: string, name?: string) => {
+    //     dispatch(editPackTC(_id, name))
+    // }
 
     return (
         <div>
@@ -22,8 +33,18 @@ export function TableBody() {
                         <div className={style.createBy}>{user_name}</div>
                         <div className={style.actions}>
                             <div className={style.buttonGroup}>
-                                <button className={style.buttonDelete}>Delete</button>
-                                <button className={style.buttonEdit}>Edit</button>
+                                <button
+                                    className={style.buttonDelete}
+                                    onClick={() => { hadleDelete(_id) }}
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    className={style.buttonEdit}
+                                    // onClick={() => { hadleEdit(_id, name) }}
+                                >
+                                    Edit
+                                </button>
                                 <button className={style.buttonLearn}>Learn</button>
                             </div>
                         </div>
@@ -31,12 +52,3 @@ export function TableBody() {
             }
         </div >)
 }
-
-
-
-
-//  <div>Name Pack</div>
-// <div>4</div>
-// <div>21.12.2021</div>
-// <div>Ales Miranovich</div>
-// <div><button>Learn</button></div> 
