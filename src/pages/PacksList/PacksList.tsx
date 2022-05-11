@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Avatar } from "../../components/Avatar/Avatar";
 import { Button } from "../../components/Button/Button";
+import { ModalWindow } from "../../components/ModalWindow/ModalWindow";
 import { ShowPacksCards } from "../../components/ShowPacksCards/ShowPacksCards";
 import { Table } from "../../components/Table/Table";
 import { TopBar } from "../../components/TopBar/TopBar";
@@ -35,7 +36,7 @@ export function Profile() {
             <div className={style.wrapper}>
                 <div className={style.leftPart}>
                     {/* <Avatar /> */}
-                    <ShowPacksCards/>
+                    <ShowPacksCards />
                     <div className={style.numberOfCards}>
                         Number of cards
                     </div>

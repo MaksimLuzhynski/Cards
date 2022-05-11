@@ -1,54 +1,65 @@
-import { iteratorSymbol } from "immer/dist/internal"
+import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { deletePackTC, editPackTC, PackType } from "../../../store/packsReducer"
 import { RootStateType } from "../../../store/store"
+import { ModalWindow } from "../../ModalWindow/ModalWindow"
+import { Pack } from "../../Pack/Pack"
 import style from "./TableBody.module.css"
+
+// type ModalWindowType = { open: boolean, id: string | null, name: string }
+
 
 export function TableBody() {
 
     const cardPacks = useSelector<RootStateType, PackType[]>(state => state.packs.cardPacks)
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    const hadleDelete = (_id: string) => {
-        let isAgry = confirm("Do you really want to remove Pack? All cards will be excluded from this course.");
-        if (isAgry) {
-            // alert(_id)
-            dispatch(deletePackTC(_id));
-        }
-    }
+    // let [isOpenModalWindow, setIsOpenModalWindow] = useState<ModalWindowType>({open: false, id: null, name: ''})
 
-    // const hadleEdit = (_id: string, name?: string) => {
-    //     dispatch(editPackTC(_id, name))
+
+    // const openModalWindow = (id: string, name: string) => {
+    //     setIsOpenModalWindow({open: true, id: id, name})
+    // }
+
+    // const closeModalWindow = () => {
+    //     setIsOpenModalWindow({open: false, id: null, name: ''})
+    // }
+
+    // const submitModalWindow = (_id: string) => {
+    //     if (_id) {
+    //         dispatch(deletePackTC(_id))
+    //     }
+    //     closeModalWindow()
+    // }
+
+    // const hadleDeletePack=(_id: string, name: string)=>{
+    //     openModalWindow(_id, name)
+    // }
+
+
+
+
+    // const hadleEditPack = (_id: string, name: string) => {
+    //     alert(_id)
+    //     let newName = prompt("Edit name of your Pack", name);
+    //     if (newName) {
+    //         dispatch(editPackTC(_id, newName))
+    //     }
     // }
 
     return (
         <div>
-            {
-                cardPacks?.map(({ name, cardsCount, user_name, updated, _id }, index) =>
-                    <div key={_id} className={index % 2 === 0 ? style.tableBodyColor1 : style.tableBodyColor2}>
-                        <div className={style.name}>{name}</div>
-                        <div className={style.cards}>{cardsCount}</div>
-                        <div className={style.lastUpdate}>{updated.substr(0, 10)}</div>
-                        <div className={style.createBy}>{user_name}</div>
-                        <div className={style.actions}>
-                            <div className={style.buttonGroup}>
-                                <button
-                                    className={style.buttonDelete}
-                                    onClick={() => { hadleDelete(_id) }}
-                                >
-                                    Delete
-                                </button>
-                                <button
-                                    className={style.buttonEdit}
-                                    // onClick={() => { hadleEdit(_id, name) }}
-                                >
-                                    Edit
-                                </button>
-                                <button className={style.buttonLearn}>Learn</button>
-                            </div>
-                        </div>
-                    </div>)
-            }
-        </div >)
+            {cardPacks?.map((pack, index) => {
+                return <Pack
+                    key={pack._id} 
+                    _id={pack._id}
+                    cardsCount={pack.cardsCount}
+                    index={index}
+                    name={pack.name}
+                    updated={pack.updated}
+                    user_name={pack.user_name} />
+            })}
+        </div>
+    )
 }

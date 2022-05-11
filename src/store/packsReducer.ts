@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { AxiosError } from "axios";
 import { Dispatch } from "react";
-import { start } from "repl";
 import { packsAPI } from "../api/packsAPI";
 import { setAppStatus } from "./appReducer";
 
@@ -49,6 +48,13 @@ const slice = createSlice({
         },
         setDeletePack: (state, action: PayloadAction<PackType>) => {
             state.cardPacks = state.cardPacks.filter(item => item._id !== action.payload._id)
+        },
+        setEditPack: (state, action: PayloadAction<PackType>) => {
+            let changeablePack = state.cardPacks.find(item => item._id === action.payload._id)
+            if (changeablePack) {
+                changeablePack.name = action.payload.name
+            }
+            state.cardPacks=state.cardPacks
         }
 
         // setUserLogOut: (state) => {
@@ -76,7 +82,7 @@ const slice = createSlice({
 
 export const packsReducer = slice.reducer;
 
-export const { setPacks, setNewPack, setDeletePack: setDeletePack } = slice.actions
+export const { setPacks, setNewPack, setDeletePack, setEditPack } = slice.actions
 
 
 export const getPacksTC = () => (dispatch: Dispatch<any>) => {
@@ -121,8 +127,16 @@ export const deletePackTC = (_id: string) => (dispatch: Dispatch<any>) => {
         })
 }
 
-export const editPackTC = (_id: string, name: string) => (dispatch: Dispatch<any>) => {
-
+export const editPackTC = (_id: string, name?: string) => (dispatch: Dispatch<any>) => {
+    dispatch(setAppStatus({ appStatus: 'loading' }))
+    packsAPI.editPack({ _id, name })
+        .then((res) => {
+            dispatch(setEditPack(res.data.updatedCardsPack))
+            dispatch(setAppStatus({ appStatus: 'succeeded' }))
+        })
+        .catch((res) => {
+            console.log(res.data.updatedCardsPack);
+        })
 }
 
 
