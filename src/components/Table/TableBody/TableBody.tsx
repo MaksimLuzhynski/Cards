@@ -58,7 +58,9 @@ export function TableBody() {
                     index={index}
                     name={pack.name}
                     updated={pack.updated}
-                    user_name={pack.user_name} />
+                    user_name={pack.user_name}
+                    userId={pack.user_id}
+                    />
             })}
         </div>
     )

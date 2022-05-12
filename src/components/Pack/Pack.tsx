@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deletePackTC, editPackTC } from "../../store/packsReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePackTC, editPackTC, PackType } from "../../store/packsReducer";
+import { RootStateType } from "../../store/store";
 import { ModalWindow } from "../ModalWindow/ModalWindow";
 import style from "./Pack.module.css";
+
 
 type PackPropsType = {
     name: string
@@ -10,11 +12,14 @@ type PackPropsType = {
     updated: string
     user_name: string
     index: number
-    _id:string
+    _id: string
+    userId: string
 }
 
 
 export function Pack(props: PackPropsType) {
+
+    let userId = useSelector<RootStateType, string>(state => state.auth.user._id)
 
     const dispatch = useDispatch()
 
@@ -26,7 +31,7 @@ export function Pack(props: PackPropsType) {
     const closeModalWindow = () => {
         setIsOpenModalWindow(false)
     }
-    const submitModalWindow=()=>{
+    const submitModalWindow = () => {
         dispatch(deletePackTC(props._id))
         closeModalWindow()
     }
@@ -47,19 +52,27 @@ export function Pack(props: PackPropsType) {
             <div className={style.createBy}>{props.user_name}</div>
             <div className={style.actions}>
                 <div className={style.buttonGroup}>
+                    {userId === props.userId &&
+                        <>
+                            <button
+                                className={style.buttonDelete}
+                                onClick={openModalWindow}
+                            >
+                                Delete
+                            </button>
+                            <button
+                                className={style.buttonEdit}
+                                onClick={hadleEditPack}
+                            >
+                                Edit
+                            </button>
+                        </>
+                    }
                     <button
-                        className={style.buttonDelete}
-                        onClick={openModalWindow}
+                        className={style.buttonLearn}
                     >
-                        Delete
+                        Learn
                     </button>
-                    <button
-                        className={style.buttonEdit}
-                        onClick={hadleEditPack}
-                    >
-                        Edit
-                    </button>
-                    <button className={style.buttonLearn}>Learn</button>
                 </div>
             </div>
 
@@ -73,19 +86,10 @@ export function Pack(props: PackPropsType) {
                 closeModalWindow={closeModalWindow}
                 submitModalWindow={submitModalWindow}
             />
-            <ModalWindow
-                isOpen={isOpenModalWindow}
-                title="Add new pack"
-                message={`Do you really want to remove ${props.name}?
-                    All cards will be excluded from this course.`}
-                _id={props._id}
-                closeModalWindow={closeModalWindow}
-                submitModalWindow={submitModalWindow}
-            />
 
 
         </div>
 
-
     )
+
 }
